@@ -1,0 +1,19 @@
+[project]
+name = "earthrover-backend"
+version = "0.1.0"
+description = "FastAPI backend for the EarthRover-1 simulation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.136.3",
+    "uvicorn[standard]>=0.48.0",
+    "websockets>=16.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

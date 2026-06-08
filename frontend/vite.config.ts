@@ -1,0 +1,27 @@
+import { defineConfig, loadEnv } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const apiTarget = env.VITE_API_PROXY_TARGET ?? 'http://localhost:8000'
+  const wsTarget = env.VITE_WS_TARGET ?? apiTarget
+
+  return {
+    plugins: [react()],
+    server: {
+      proxy: {
+        '/api': {
+          target: apiTarget,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+        '/ws': {
+          target: wsTarget,
+          ws: true,
+          changeOrigin: true,
+        },
+      },
+    },
+  }
+})
