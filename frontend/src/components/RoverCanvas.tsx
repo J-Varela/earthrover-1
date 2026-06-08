@@ -44,8 +44,9 @@ export default function RoverCanvas({
     const centerY = canvas.height / 2;
     const scale = 40;
 
-    const roverX = centerX + rover.x * scale;
-    const roverY = centerY - rover.y * scale;
+    // Keep rover centered on canvas
+    const roverX = centerX;
+    const roverY = centerY;
     const sensingRadius = 60;
 
     // lidar rays
@@ -69,8 +70,8 @@ export default function RoverCanvas({
     if (path.length > 0) {
       ctx.beginPath();
       path.forEach((point, index) => {
-        const x = centerX + point[0] * scale;
-        const y = centerY - point[1] * scale;
+        const x = centerX + (point[0] - rover.x) * scale;
+        const y = centerY - (point[1] - rover.y) * scale;
 
         if (index === 0) {
           ctx.moveTo(x, y);
@@ -85,8 +86,8 @@ export default function RoverCanvas({
 
     // obstacles
     obstacles.forEach((obs) => {
-      const x = centerX + obs.x * scale;
-      const y = centerY - obs.y * scale;
+      const x = centerX + (obs.x - rover.x) * scale;
+      const y = centerY - (obs.y - rover.y) * scale;
       const distance = Math.hypot(x - roverX, y - roverY);
 
       ctx.beginPath();
